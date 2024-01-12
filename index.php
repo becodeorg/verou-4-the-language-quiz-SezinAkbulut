@@ -13,7 +13,7 @@ error_reporting(E_ALL);
 // Load your classes
 require_once 'classes/data.php';
 require_once 'classes/LanguageGame.php';
-//require_once 'classes/player.php'; // Only needed for extra's
+require_once 'classes/player.php'; // Only needed for extra's
 require_once 'classes/word.php';
 
 
@@ -23,5 +23,11 @@ require_once 'classes/word.php';
 $game = new LanguageGame();
 $game->run();
 
+// Create an instance of the Player class
+$player = new Player();
+
+// Use the getName and getScore methods
+$name = $player->getName();
+$score = $player->getScore();
 
 require 'view.php';

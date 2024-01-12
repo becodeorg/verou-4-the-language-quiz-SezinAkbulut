@@ -12,5 +12,4 @@ class Player
         $this->name = "👤";
         $this->score = 0;
     }
-
 }
