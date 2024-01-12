@@ -12,14 +12,18 @@ class Player
 
     public function __construct()
     {
-        // TODO: add 👤 automatically to their name
-        $this->name = "👤";
+        $this->name = "";
         $this->score = 0;
     }
 
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function setName(string $name)
+    {
+        $this->name = $name;
     }
 
     public function getScore(): int
@@ -30,18 +34,16 @@ class Player
     public function increaseScore()
     {
         $this->score++;
-        var_dump($this->score); // Debug statement
     }
 
     public function decreaseScore()
     {
-        if ($this->score > 0) {
-            $this->score--;
-        }
+        $this->score--;
     }
 
     public function resetScore()
     {
         $this->score = 0;
+        $this->name = ""; // Reset player name
     }
 }

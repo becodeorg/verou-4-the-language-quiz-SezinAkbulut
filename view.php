@@ -9,6 +9,7 @@
 </head>
 <body>
 
+
 <div>
     <p>Player: <?php echo $game->getPlayerName(); ?></p>
     <p>Score: <?php echo $game->getPlayerScore(); ?></p>
@@ -22,9 +23,30 @@
         <button type="submit" name="submit">Submit Answer</button>
     </form>
 
+
     <!-- Add a reset form -->
     <form action="index.php" method="post">
         <input type="submit" name="reset" value="Reset">
+
+
     </form>
+
+
+<form method="post">
+    <?php if (empty($game->getPlayerName())) : ?>
+        <!-- Ask for player's name -->
+        <label for="player_name">Enter your name: </label>
+        <input type="text" name="player_name" required>
+        <input type="submit" name="submit_name" value="Start Quiz">
+    <?php else : ?>
+        <!-- Display player's name and continue with the game -->
+        <p>Welcome, <?php echo $game->getPlayerName(); ?>!</p>
+        <!-- ... existing code ... -->
+    <?php endif; ?>
+
+</form>
+
+
+
 </body>
 </html>
