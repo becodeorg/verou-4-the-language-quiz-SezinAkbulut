@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 class Player
 {
     // TODO: add name and score
@@ -26,6 +30,14 @@ class Player
     public function increaseScore()
     {
         $this->score++;
+        var_dump($this->score); // Debug statement
+    }
+
+    public function decreaseScore()
+    {
+        if ($this->score > 0) {
+            $this->score--;
+        }
     }
 
     public function resetScore()

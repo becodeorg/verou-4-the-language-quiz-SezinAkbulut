@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 
+
 //var_dump($_SESSION['random_word']);
 
 // Show errors so we get helpful information
@@ -16,6 +17,8 @@ require_once 'classes/LanguageGame.php';
 require_once 'classes/player.php'; // Only needed for extra's
 require_once 'classes/word.php';
 
+
+session_start();
 
 // Start the game
 // Don't change anything in this file

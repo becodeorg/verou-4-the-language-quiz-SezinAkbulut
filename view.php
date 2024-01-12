@@ -8,12 +8,23 @@
 	<title>Game</title>
 </head>
 <body>
+
+<div>
+    <p>Player: <?php echo $game->getPlayerName(); ?></p>
+    <p>Score: <?php echo $game->getPlayerScore(); ?></p>
+</div>
+
 	<!-- TODO: add a form for the user to play the game -->
     <form action="index.php" method="post">
         <label for="user_answer">English:</label>
         <input type="text" id="user_answer" name="user_answer" required>
         <br>
         <button type="submit" name="submit">Submit Answer</button>
+    </form>
+
+    <!-- Add a reset form -->
+    <form action="index.php" method="post">
+        <input type="submit" name="reset" value="Reset">
     </form>
 </body>
 </html>

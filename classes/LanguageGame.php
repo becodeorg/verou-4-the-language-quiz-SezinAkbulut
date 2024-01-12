@@ -1,26 +1,49 @@
 <?php
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 class LanguageGame
 {
     private $words;
+    private $player;
 
-    public function __construct()
+
+        public function __construct()
     {
+        // Start the session if not started
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $this->player = new Player();
+
         // :: is used for static functions
-        // They can be called without an instance of that class being created
-        // and are used mostly for more *static* types of data (a fixed set of translations in this case)
         foreach (Data::words() as $frenchTranslation => $englishTranslation) {
             // TODO: create instances of the Word class to be added to the words array
             $this->words[] = new Word($frenchTranslation, $englishTranslation);
         }
     }
 
+
+    public function getPlayerName(): string
+    {
+        return $this->player->getName();
+    }
+
+    public function getPlayerScore(): int
+    {
+        return $this->player->getScore();
+    }
     // TODO: check for option A or B
     // Option A: user visits site first time (or wants a new word)
     public function run()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->processAnswer();
+        // Check if the game is reset
+        if (isset($_POST['reset'])) {
+            $this->player->resetScore();
+            $this->selectRandomWord();
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->verifyAnswer();
         } else {
             $this->selectRandomWord();
         }
@@ -30,7 +53,7 @@ class LanguageGame
     private function selectRandomWord()
     {
         if (session_status() == PHP_SESSION_NONE) {
-            session_start();
+
         }
 
         if (!empty($this->words)) {
@@ -52,10 +75,8 @@ class LanguageGame
 
 
     // Option B: user has just submitted an answer
-    private function processAnswer()
+    private function verifyAnswer()
     {
-        session_start();
-
         if (isset($_SESSION['random_word'])) {
             $randomWord = $_SESSION['random_word'];
             $userAnswer = $_POST['user_answer'];
@@ -65,8 +86,12 @@ class LanguageGame
                 // TODO: generate a message for the user that can be shown
                 echo "Correct! Well done.";
                 echo "<br>";
+                $this->player->increaseScore();
+                echo "<br>";
             } else {
                 echo "Incorrect. Try again.";
+                echo "<br>";
+                $this->player->decreaseScore(); // Decrease score on incorrect answer
                 echo "<br>";
             }
             // Get a new random word after the message
