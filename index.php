@@ -23,11 +23,5 @@ require_once 'classes/word.php';
 $game = new LanguageGame();
 $game->run();
 
-// Create an instance of the Player class
-$player = new Player();
-
-// Use the getName and getScore methods
-$name = $player->getName();
-$score = $player->getScore();
 
 require 'view.php';
