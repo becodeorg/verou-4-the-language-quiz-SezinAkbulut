@@ -29,17 +29,24 @@ class LanguageGame
     // TODO: select a random word for the user to translate
     private function selectRandomWord()
     {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
         if (!empty($this->words)) {
             $randomKey = array_rand($this->words);
             $randomWord = $this->words[$randomKey];
 
-            session_start();
             $_SESSION['random_word'] = $randomWord;
 
             // Display the random word for translation in the HTML form
-            echo "Translate the word: {$randomWord->getFrenchTranslation()}";
+            echo "Translate the word:";
+            echo "<br>";
+            echo "French: {$randomWord->getFrenchTranslation()}";
+            echo "<br>";
         } else {
             echo "No words available for translation.";
+            echo "<br>";
         }
     }
 
@@ -57,9 +64,13 @@ class LanguageGame
             if ($randomWord->verify($userAnswer)) {
                 // TODO: generate a message for the user that can be shown
                 echo "Correct! Well done.";
+                echo "<br>";
             } else {
                 echo "Incorrect. Try again.";
+                echo "<br>";
             }
+            // Get a new random word after the message
+            $this->selectRandomWord();
         } else {
             echo "Session variable 'random_word' not set.";
         }

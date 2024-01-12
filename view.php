@@ -10,7 +10,7 @@
 <body>
 	<!-- TODO: add a form for the user to play the game -->
     <form action="index.php" method="post">
-        <label for="user_answer">Translate the word:</label>
+        <label for="user_answer">English:</label>
         <input type="text" id="user_answer" name="user_answer" required>
         <br>
         <button type="submit" name="submit">Submit Answer</button>
