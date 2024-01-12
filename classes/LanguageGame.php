@@ -1,6 +1,5 @@
 <?php
 
-
 class LanguageGame
 {
     private $words;
