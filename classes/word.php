@@ -12,6 +12,7 @@ class Word
         $this->frenchTranslation = $frenchTranslation;
         $this->englishTranslation = $englishTranslation;
     }
+
 // TODO: use this function to verify if the provided answer by the user matches the correct one
     public function verify(string $answer): bool
     {

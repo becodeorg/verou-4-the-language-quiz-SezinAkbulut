@@ -1,5 +1,4 @@
 <?php
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -9,16 +8,22 @@ class Player
     // TODO: add name and score
     private $name;
     private $score;
+    private $rightScore;
+    private $wrongScore;
 
-    public function __construct()
+    public function __construct(string $name)
     {
-        $this->name = "";
+        $this->name = '👤';
         $this->score = 0;
+        $this->rightScore = 0;
+        $this->wrongScore = 0;
     }
+
 
     public function getName(): string
     {
-        return $this->name;
+      //  return $this->name;
+        return empty($this->name) ?  '👤'  :   $this->name ;
     }
 
     public function setName(string $name)
@@ -45,5 +50,15 @@ class Player
     {
         $this->score = 0;
         $this->name = ""; // Reset player name
+    }
+
+    public function getRightScore()
+    {
+        $this->rightScore++;
+    }
+
+    public function getWrongScore()
+    {
+        $this->wrongScore++;
     }
 }

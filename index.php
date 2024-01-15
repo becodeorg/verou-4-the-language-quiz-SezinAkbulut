@@ -2,8 +2,6 @@
 // Require the correct variable type to be used (no auto-converting)
 declare(strict_types=1);
 
-
-
 //var_dump($_SESSION['random_word']);
 
 // Show errors so we get helpful information
@@ -28,3 +26,4 @@ $game->run();
 
 
 require 'view.php';
+

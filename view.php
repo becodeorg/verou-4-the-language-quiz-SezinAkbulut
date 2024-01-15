@@ -6,17 +6,67 @@
 		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Game</title>
+    <!--
+    <style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    }
+
+    #game-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    }
+
+    #word-container {
+    font-size: 24px;
+    margin-bottom: 20px;
+    }
+
+    label {
+    font-size: 18px;
+    margin-right: 10px;
+    }
+
+    input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    }
+
+    button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    }
+
+    button:hover {
+    background-color: #45a049;
+    }
+    </style>
+    -->
+
 </head>
 <body>
-
-
-<div>
-    <p>Player: <?php echo $game->getPlayerName(); ?></p>
-    <p>Score: <?php echo $game->getPlayerScore(); ?></p>
-</div>
+<div id="game-container">
 
 	<!-- TODO: add a form for the user to play the game -->
-    <form action="index.php" method="post">
+    <form  method="post">
+        <p>Player: <?php echo $game->getPlayerName(); ?></p>
+        <p>Score: <?php echo $game->getPlayerScore(); ?></p>
+
         <label for="user_answer">English:</label>
         <input type="text" id="user_answer" name="user_answer" required>
         <br>
@@ -25,27 +75,10 @@
 
 
     <!-- Add a reset form -->
-    <form action="index.php" method="post">
+    <form method="post">
         <input type="submit" name="reset" value="Reset">
-
-
     </form>
-
-
-<form method="post">
-    <?php if (empty($game->getPlayerName())) : ?>
-        <!-- Ask for player's name -->
-        <label for="player_name">Enter your name: </label>
-        <input type="text" name="player_name" required>
-        <input type="submit" name="submit_name" value="Start Quiz">
-    <?php else : ?>
-        <!-- Display player's name and continue with the game -->
-        <p>Welcome, <?php echo $game->getPlayerName(); ?>!</p>
-        <!-- ... existing code ... -->
-    <?php endif; ?>
-
-</form>
-
+</div>
 
 
 </body>
