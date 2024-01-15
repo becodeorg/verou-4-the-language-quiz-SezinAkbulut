@@ -6,80 +6,142 @@
 		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Game</title>
-    <!--
-    <style>
-    body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    }
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+            }
 
-    #game-container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    }
+            #game-container {
+                border-radius: 8px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                padding: 30px;
+                text-align: center;
+                background-color: darkslateblue;
+                color: white;
+                margin-bottom: 2rem;
+            }
 
-    #word-container {
-    font-size: 24px;
-    margin-bottom: 20px;
-    }
+            #word-container {
+                font-size: 18px;
+                margin-bottom: 20px;
+                color: white;
+            }
 
-    label {
-    font-size: 18px;
-    margin-right: 10px;
-    }
+            #answer-form {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin-top: 20px;
+            }
 
-    input[type="text"] {
-    padding: 10px;
-    font-size: 16px;
-    }
+            #user_answer {
+                margin-bottom: 10px;
+                padding: 8px;
+                font-size: 16px;
+            }
 
-    button {
-    padding: 10px 20px;
-    font-size: 18px;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    }
+            #submit-btn, #reset-btn {
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+            }
 
-    button:hover {
-    background-color: #45a049;
-    }
-    </style>
-    -->
+            #submit-btn, #reset-btn:hover {
+                background-color: rgba(116, 125, 140, 0.65);
+            }
 
+            #submit-btn {
+                color: white;
+                background-color: green;
+                border-radius: 25px;
+            }
+
+            #reset-btn{
+                color: white;
+                background-color: darkred;
+                border-radius: 25px;
+            }
+
+            #error-message {
+                color: red;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+
+            #score-count {
+                font-size: 16px;
+                margin-top: 10px;
+                color: white;
+            }
+
+            h2 {
+                color: white;
+            }
+
+            .randomWord{
+                font-size: 20px;
+                color: #9bdc28;
+                font-weight: bold;
+            }
+            .language{
+
+                font-weight: bold;
+            }
+
+        </style>
 </head>
 <body>
+
 <div id="game-container">
+    <!-- TODO: select a random word for the user to translate -->
+    <?php
+    // Place this PHP code where you want to display the random word
+    if (!empty($_SESSION['random_word'])) {
+        $randomWord = $_SESSION['random_word'];
+        echo '<div id="word-container">';
+        echo '<h2>Translate the word:</h2><br>';
+        echo '<p class="language"> French: <span class="randomWord">' . $randomWord->getFrenchTranslation() . '</span></p>';
+        echo '</div>';
+    }
+    ?>
+    <!-- TODO: add a form for the user to play the game -->
+    <form  method="post" id="answer-form">
 
-	<!-- TODO: add a form for the user to play the game -->
-    <form  method="post">
-        <p>Player: <?php echo $game->getPlayerName(); ?></p>
-        <p>Score: <?php echo $game->getPlayerScore(); ?></p>
-
-        <label for="user_answer">English:</label>
+        <label class="language" for="user_answer">English:</label>
         <input type="text" id="user_answer" name="user_answer" required>
         <br>
-        <button type="submit" name="submit">Submit Answer</button>
+        <button type="submit"  id="submit-btn" name="submit">Submit Answer</button>
     </form>
 
+
+
+    <div id="score-count">
+        <p>Player: <?php echo $game->getPlayerName(); ?></p>
+        <p>Score: <?php echo $game->getPlayerScore(); ?></p>
+        <p>Correct Answers: <?php echo $game->getPlayer()->getRightScore(); ?></p>
+        <p>Wrong Answers: <?php echo $game->getPlayer()->getWrongScore(); ?></p>
+    </div>
+
+
+    <?php
+    if (isset($errorMessage)) {
+        echo '<div id="error-message">' . $errorMessage . '</div>';
+    }
+    ?>
 
     <!-- Add a reset form -->
     <form method="post">
-        <input type="submit" name="reset" value="Reset">
+        <input type="submit" id="reset-btn" name="reset" value="Reset">
     </form>
 </div>
-
-
 </body>
 </html>
+
+

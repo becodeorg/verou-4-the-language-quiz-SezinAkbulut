@@ -48,16 +48,28 @@ class Player
 
     public function resetScore()
     {
-        $this->score = 0;
+        $this->score = 0; //Reset player score
+        $this->rightScore = 0; // Reset correct score
+        $this->wrongScore = 0; // Reset wrong score
         $this->name = ""; // Reset player name
     }
 
-    public function getRightScore()
+    public function getRightScore(): int
+    {
+        return $this->rightScore;
+    }
+
+    public function increaseRightScore()
     {
         $this->rightScore++;
     }
 
-    public function getWrongScore()
+    public function getWrongScore(): int
+    {
+        return $this->wrongScore;
+    }
+
+    public function increaseWrongScore()
     {
         $this->wrongScore++;
     }

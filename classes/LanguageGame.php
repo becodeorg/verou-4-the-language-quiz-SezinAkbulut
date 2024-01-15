@@ -54,12 +54,12 @@ class LanguageGame
     }
     private function showNicknameForm()
     {
-        echo "<div>";
-        echo '<form method="post">';
-        echo '<label> Please enter your nickname: </label>';
+        echo "<div id='ask-nickname'>";
+        echo '<form id="asking-form" method="post">';
+        echo '<label id="player_name"> Please enter your nickname: </label>';
         echo "<br>";
-        echo '<input type="text" name="nickname" required>';
-        echo '<input type="submit" value="Start Quiz">';
+        echo '<input id="player_name" type="text" name="nickname" required>';
+        echo '<input id="submit-btn" type="submit" value="Start Quiz">';
 
         echo '</form>';
         echo "</div>";
@@ -86,10 +86,11 @@ class LanguageGame
 
         // Check if the player has just submitted their name
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['nickname'])) {
-
+            $this->player->resetScore();
             $this->player->setName($_POST['nickname']);
-            echo "Welcome, {$this->player->getName()}!";
             echo "<br>";
+            echo "<h1> Welcome, {$this->player->getName()}!</h1>";
+
             $this->selectRandomWord();
         }
 
@@ -125,10 +126,7 @@ class LanguageGame
             $_SESSION['random_word'] = $randomWord;
 
             // Display the random word for translation in the HTML form
-            echo '<div id="word-container">';
-            echo 'Translate the word:<br>';
-            echo 'French: ' . $randomWord->getFrenchTranslation();
-            echo '</div>';
+
         } else {
             echo "No words available for translation.";
             echo "<br>";
@@ -141,94 +139,106 @@ class LanguageGame
     private function verifyAnswer()
     {
         if (!isset($_POST['user_answer'])) {
-            echo "Please enter an answer.";
-            return;
+           echo "<h1>Please enter an answer.</h1>";
+           return;
         }
 
         $userAnswer = $_POST['user_answer'];
+
 
         if (isset($_SESSION['random_word'])) {
             $randomWord = $_SESSION['random_word'];
 
             // Verify the answer (use the verify function in the word class) - you'll need to get the used word from the array first
             if ($randomWord->verify($userAnswer)) {
+
+
                 // Generate a message for the user that can be shown
-                echo "Correct! Well done.";
-                echo "<br>";
+                echo "<h1>Correct! Well done.</h1>";
                 $this->player->increaseScore();
-                $this->player-> getRightScore();
+                $this->player->increaseRightScore(); // Increment the correct score
             } else {
-                echo "Incorrect. Try again.";
+                echo "<h1>Incorrect. Try again.</h1>";
                 echo "<br>";
                 $this->player->decreaseScore();
-                $this->player->getWrongScore();
+                $this->player->increaseWrongScore();
             }
+
+            // Display the count of correct and incorrect answers
+           // echo "<p>Correct Answers: {$this->player->getRightScore()} / Incorrect Answers: {$this->player->getWrongScore()}</p>";
+
             // Get a new random word after the message
             $this->selectRandomWord();
         } else {
-            echo "Session variable 'random_word' not set.";
+            echo "<p>Session variable 'random_word' not set.</p>";
         }
     }
+
 }
 
 ?>
 
-<!--
-<style>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        h1 {
+            color: darkslateblue;
+        }
+        #ask-nickname{
+            margin-top: 5rem;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+            background-color: darkslateblue;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        #asking-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
 
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-    }
+        }
 
-    div {
-        background-color: steelblue;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
+        #player_name {
+            margin-bottom: 10px;
+            padding: 8px;
+            font-size: 16px;
+        }
+        #submit-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            color: white;
+            background-color: green;
+            border-radius: 25px;
+        }
 
-    form {
+        #submit-btn:hover {
+            background-color: rgba(116, 125, 140, 0.65);
+        }
+    </style>
+</head>
+<body>
+</body>
+</html>
 
-        margin-top: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
 
-    label {
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    input {
-        padding: 8px;
-        margin-bottom: 10px;
-    }
-
-    button {
-        padding: 10px 20px;
-        font-size: 18px;
-        background-color: #4caf50;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #45a049;
-    }
-    #word-container {
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
-</style>
--->
